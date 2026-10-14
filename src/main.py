@@ -1,0 +1,97 @@
+"""OpenTrack command-line interface.
+
+Usage examples:
+    python -m src.main create --title "Fix login" --priority high
+    python -m src.main get 1
+    python -m src.main list
+    python -m src.main update 1 --status closed
+    python -m src.main delete 1
+"""
+
+import argparse
+import json
+import sys
+
+from .issue_service import IssueNotFound, IssueService
+from .storage import JsonStorage
+from .validators import ValidationError
+
+DEFAULT_DB = "opentrack.json"
+
+
+def build_parser():
+    parser = argparse.ArgumentParser(prog="opentrack", description="OpenTrack issue tracker")
+    parser.add_argument("--db", default=DEFAULT_DB, help="path to the JSON storage file")
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    p_create = sub.add_parser("create", help="create a new issue")
+    p_create.add_argument("--title", required=True)
+    p_create.add_argument("--priority", default="medium")
+    p_create.add_argument("--status", default="open")
+
+    p_get = sub.add_parser("get", help="show one issue")
+    p_get.add_argument("id", type=int)
+
+    sub.add_parser("list", help="list all issues")
+
+    p_update = sub.add_parser("update", help="partially update an issue")
+    p_update.add_argument("id", type=int)
+    p_update.add_argument("--title")
+    p_update.add_argument("--priority")
+    p_update.add_argument("--status")
+
+    p_delete = sub.add_parser("delete", help="delete an issue")
+    p_delete.add_argument("id", type=int)
+
+    p_find = sub.add_parser("find", help="filter and search issues")
+    p_find.add_argument("--status")
+    p_find.add_argument("--priority")
+    p_find.add_argument("--title-contains")
+
+    return parser
+
+
+def main(argv=None):
+    args = build_parser().parse_args(argv)
+    service = IssueService(JsonStorage(args.db))
+    try:
+        if args.command == "create":
+            result = service.create(
+                {"title": args.title, "priority": args.priority, "status": args.status}
+            )
+        elif args.command == "get":
+            result = service.get(args.id)
+        elif args.command == "list":
+            result = service.list_all()
+        elif args.command == "update":
+            changes = {
+                k: v
+                for k, v in {
+                    "title": args.title,
+                    "priority": args.priority,
+                    "status": args.status,
+                }.items()
+                if v is not None
+            }
+            result = service.update(args.id, changes)
+        elif args.command == "delete":
+            service.delete(args.id)
+            result = {"deleted": args.id}
+        elif args.command == "find":
+            result = service.find(
+                status=args.status,
+                priority=args.priority,
+                title_contains=args.title_contains,
+            )
+        print(json.dumps(result, indent=2))
+        return 0
+    except ValidationError as e:
+        print(f"invalid input: {e}", file=sys.stderr)
+        return 2
+    except IssueNotFound as e:
+        print(f"not found: {e.args[0]}", file=sys.stderr)
+        return 3
+
+
+if __name__ == "__main__":
+    sys.exit(main())
