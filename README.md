@@ -26,6 +26,15 @@ python -m src.main update 1 --status in_progress
 
 # delete
 python -m src.main delete 1
+
+# rank open issues for triage (high first, then medium, then low)
+python -m src.main triage --limit 5
+
+# show an issue's reference hint (index of first unique character in its title)
+python -m src.main ref 1
+
+# consolidate maintenance windows (inclusive start:end intervals)
+python -m src.main windows 1:3 2:5 8:9
 ```
 
 Data is stored in `opentrack.json` in the working directory (override with
@@ -48,8 +57,8 @@ you are expected to add your own tests as you fix issues.
 | `src/issue_service.py` | Core issue operations |
 | `src/storage.py` | JSON persistence |
 | `src/validators.py` | Input validation rules |
-| `src/algorithms.py` | Utility algorithms (unique character, interval merge) |
-| `src/ranking.py` | Open-issue ranking for triage |
+| `src/algorithms.py` | Utility algorithms backing the `ref` and `windows` commands |
+| `src/ranking.py` | Open-issue ranking backing the `triage` command |
 | `tests/` | Public starter tests |
 
 ## Assessment workflow

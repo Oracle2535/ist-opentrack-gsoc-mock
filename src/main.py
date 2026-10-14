@@ -12,7 +12,9 @@ import argparse
 import json
 import sys
 
+from .algorithms import first_unique_index, merge_intervals
 from .issue_service import IssueNotFound, IssueService
+from .ranking import rank_open_issues
 from .storage import JsonStorage
 from .validators import ValidationError
 
@@ -47,6 +49,19 @@ def build_parser():
     p_find.add_argument("--status")
     p_find.add_argument("--priority")
     p_find.add_argument("--title-contains")
+
+    p_triage = sub.add_parser("triage", help="rank open issues for triage")
+    p_triage.add_argument("--limit", type=int, default=5)
+
+    p_ref = sub.add_parser("ref", help="show an issue's reference hint (first unique title character)")
+    p_ref.add_argument("id", type=int)
+
+    p_windows = sub.add_parser("windows", help="consolidate maintenance windows")
+    p_windows.add_argument(
+        "intervals",
+        nargs="+",
+        help="inclusive intervals as start:end pairs, e.g. 1:3 2:5",
+    )
 
     return parser
 
@@ -83,6 +98,20 @@ def main(argv=None):
                 priority=args.priority,
                 title_contains=args.title_contains,
             )
+        elif args.command == "triage":
+            result = rank_open_issues(service.list_all(), args.limit)
+        elif args.command == "ref":
+            issue = service.get(args.id)
+            index = first_unique_index(issue["title"])
+            result = {
+                "id": issue["id"],
+                "title": issue["title"],
+                "ref_index": index,
+                "ref_char": issue["title"][index] if index >= 0 else None,
+            }
+        elif args.command == "windows":
+            pairs = [[int(x) for x in item.split(":")] for item in args.intervals]
+            result = merge_intervals(pairs)
         print(json.dumps(result, indent=2))
         return 0
     except ValidationError as e:
