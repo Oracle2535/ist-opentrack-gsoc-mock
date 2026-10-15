@@ -63,12 +63,27 @@ you are expected to add your own tests as you fix issues.
 
 ## Assessment workflow
 
-1. Read the issues assigned in this repository.
-2. Work on a feature branch named `assessment/<your-student-id>`.
-3. Commit in small, well-described steps.
-4. Open **one cumulative Pull Request** against `main` before the cutoff.
-5. Your PR description must include: linked issues, root causes found,
-   components changed, commands/tests run with results, and assumptions.
+You have **read-only** access to this repository. All work happens in your own
+private fork:
+
+1. Read the issues in this repository.
+2. **Fork** this repository using the Fork button (your fork stays private).
+3. Clone **your fork** and create a branch named `assessment/<your-student-id>`.
+4. Commit in small, well-described steps and push to your fork.
+5. Open **one cumulative Pull Request inside your fork**: base = your fork's
+   `main`, compare = your `assessment/<your-student-id>` branch. Do **not**
+   open a PR against this upstream repository.
+6. Add **`hshar-intellipaat`** as a collaborator on your fork
+   (your fork → Settings → Collaborators → Add people), so instructors can
+   review your work.
+7. Submit your fork URL and PR URL in this form **by 10:30 AM**:
+   <https://forms.gle/c3xazJkKpRqu9Hwt8>
+   (Open the PR early — keep pushing commits to it as you progress.)
+
+Your PR description must include: linked issues, root causes found,
+components changed, commands/tests run with results, and assumptions.
+The last commit on your PR branch **before 1:00 PM IST** is what gets graded.
+Do not delete or force-push your fork after the cutoff.
 
 AI-generated solutions and collaboration are prohibited for this assessment.
 Shortlisted students will be asked to explain and modify their own code in a

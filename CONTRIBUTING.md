@@ -1,11 +1,19 @@
 # Contributing
 
-## Branch and PR rules
+## Fork, branch, and PR rules
 
-- Branch from `main` as `assessment/<your-student-id>`.
-- Do not push directly to `main`. All submissions go through a Pull Request.
-- Open one cumulative PR against `main`; keep pushing commits to it as you
-  progress. The commit SHA at the cutoff time is what gets graded.
+- You have read-only access here. **Fork this repository** and do all work in
+  your fork.
+- In your fork, branch from `main` as `assessment/<your-student-id>`.
+- Never commit directly to `main`, even in your fork. All work goes through
+  a Pull Request.
+- Open **one cumulative PR inside your fork** (base: your fork's `main`,
+  compare: your assessment branch) — not against the upstream repository.
+  Keep pushing commits to it as you progress. The commit SHA on your PR
+  branch at the cutoff time is what gets graded.
+- Add `hshar-intellipaat` as a collaborator on your fork, and submit your
+  fork URL + PR URL via the submission form by 10:30 AM:
+  <https://forms.gle/c3xazJkKpRqu9Hwt8>
 
 ## Commits
 
