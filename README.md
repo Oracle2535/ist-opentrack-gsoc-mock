@@ -76,13 +76,13 @@ private fork:
 6. Add **`hshar-intellipaat`** as a collaborator on your fork
    (your fork → Settings → Collaborators → Add people), so instructors can
    review your work.
-7. Submit your fork URL and PR URL in this form **by 10:30 AM**:
+7. Submit your fork URL and PR URL in this form **by 9:30 AM**:
    <https://forms.gle/c3xazJkKpRqu9Hwt8>
    (Open the PR early — keep pushing commits to it as you progress.)
 
 Your PR description must include: linked issues, root causes found,
 components changed, commands/tests run with results, and assumptions.
-The last commit on your PR branch **before 1:00 PM IST** is what gets graded.
+The last commit on your PR branch **before 12:00 PM IST** is what gets graded.
 Do not delete or force-push your fork after the cutoff.
 
 AI-generated solutions and collaboration are prohibited for this assessment.

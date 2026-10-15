@@ -12,7 +12,7 @@
   Keep pushing commits to it as you progress. The commit SHA on your PR
   branch at the cutoff time is what gets graded.
 - Add `hshar-intellipaat` as a collaborator on your fork, and submit your
-  fork URL + PR URL via the submission form by 10:30 AM:
+  fork URL + PR URL via the submission form by 9:30 AM:
   <https://forms.gle/c3xazJkKpRqu9Hwt8>
 
 ## Commits
